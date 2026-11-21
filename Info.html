@@ -31,6 +31,8 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px)
 *{box-sizing:border-box;margin:0}
 body{font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.8;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
+img{max-width:100%}
+body{overflow-x:clip}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 section{padding:96px 0}
 .alt{background:var(--surface)}
@@ -58,6 +60,7 @@ nav .wrap{display:flex;align-items:center;height:68px;gap:28px}
 nav .btn{padding:10px 20px}
 .tg{width:42px;height:42px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text);font-size:19px;cursor:pointer;display:grid;place-items:center;transition:background .2s}
 .tg:hover{background:var(--soft)}
+.mb{display:none}
 
 /* hero */
 .hero{padding:72px 0 24px;background:radial-gradient(900px 400px at 85% -10%,var(--soft),transparent 70%)}
@@ -78,7 +81,7 @@ h1 em{font-style:normal;color:var(--primary)}
 .title+.row{margin-top:0}
 .row h3{font-size:28px;font-weight:700;line-height:1.4;margin:14px 0 10px}
 .row p{color:var(--muted);font-size:17px}
-@media (max-width:900px){.row,.row.b{grid-template-columns:1fr;gap:24px;margin-top:56px}.row .shot{order:-1}}
+@media (max-width:900px){.row,.row.b{grid-template-columns:minmax(0,1fr);gap:24px;margin-top:56px}.row .shot{order:-1}}
 details{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:0 22px;margin-bottom:12px}
 summary{cursor:pointer;list-style:none;padding:20px 0;font-weight:600;font-size:17px;display:flex;justify-content:space-between;gap:16px;align-items:center}
 summary::-webkit-details-marker{display:none}
@@ -86,13 +89,23 @@ summary::after{content:"+";font-size:26px;line-height:1;color:var(--primary)}
 details[open] summary::after{content:"−"}
 details p{color:var(--muted);padding:0 0 20px}
 .faq{max-width:780px;margin:0 auto}
+.demo>*{min-width:0}
 .demo{background:var(--primary);color:var(--on-primary);border-radius:32px;padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .demo h2{font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.35}
 .demo p{opacity:.88;font-size:18px;margin-top:12px}
-.demo form{background:var(--card);color:var(--text);border-radius:22px;padding:28px;display:grid;gap:14px}
+.demo form{min-width:0;background:var(--card);color:var(--text);border-radius:22px;padding:28px;display:grid;gap:14px}
 .demo label{font-size:14px;font-weight:600;display:grid;gap:6px}
-.demo input,.demo select{font:inherit;font-weight:400;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--text)}
+.demo input,.demo select{width:100%;min-width:0;max-width:100%;font:inherit;font-weight:400;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--text)}
 .demo input:focus,.demo select:focus{outline:2px solid var(--primary);outline-offset:1px}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:64px 0 0;color:var(--muted);font-size:15px}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px}
+footer .logo img{height:46px}
+footer .brand p{margin:14px 0 20px;max-width:340px}
+footer h4{color:var(--text);font-size:16px;font-weight:600;margin-bottom:12px}
+footer .fcol a{display:block;padding:5px 0;transition:color .2s}
+footer .fcol a:hover{color:var(--primary)}
+.fbar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--border);margin-top:48px;padding:22px 0;font-size:14px}
+.fbar a:hover{color:var(--primary)}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btns .btn{padding:13px 10px;white-space:nowrap}
 .btns svg{width:18px;height:18px}
@@ -149,8 +162,6 @@ details p{color:var(--muted);padding:0 0 20px}
 .final h2{font-size:clamp(28px,4vw,40px);font-weight:700}
 .final p{opacity:.85;font-size:18px;margin:10px 0 28px}
 .final .btn{background:var(--bg);color:var(--primary)}
-footer{padding:36px 0;color:var(--muted);font-size:14.5px}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
@@ -159,10 +170,35 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 @media (max-width:900px){
   section{padding:64px 0}
-  .links{display:none}.tg{margin-inline-start:auto}
-  .demo{grid-template-columns:1fr;padding:36px 22px;gap:28px}
-  .grid,.steps,.plans{grid-template-columns:1fr}
+  nav .wrap{gap:10px}
+  .links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 24px 16px;background:var(--bg);border-bottom:1px solid var(--border);box-shadow:0 24px 32px -24px rgba(0,0,0,.3)}
+  nav.open .links{display:flex}
+  .links a{padding:13px 0;color:var(--text);font-size:16px;border-bottom:1px solid var(--border)}
+  .links a:last-child{border-bottom:0}
+  .tg{margin-inline-start:auto}
+  .mb{display:grid}
+  .demo{grid-template-columns:minmax(0,1fr);padding:32px 18px;gap:24px;border-radius:26px}
+  .demo form{padding:20px 16px}
+  .fgrid{grid-template-columns:minmax(0,1fr);gap:32px}
+  .grid,.steps,.plans{grid-template-columns:minmax(0,1fr)}
+  .plans{max-width:480px;margin-inline:auto}
   .plan.hot{transform:none}
+}
+@media (min-width:600px) and (max-width:900px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .fgrid{grid-template-columns:1.4fr 1fr 1fr}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+  .title{margin-bottom:36px}
+  .hero{padding-top:44px}
+  .lead{font-size:17px}
+  .cta{flex-direction:column}
+  .cta .btn{width:100%}
+  .card{padding:22px}
+  .plan{padding:24px}
+  summary{font-size:16px}
 }
 </style>
 </head>
@@ -187,6 +223,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     <div class="links"><a href="#features">المميزات</a><a href="#steps">كيف يعمل</a><a href="#security">الأمان</a><a href="#pricing">الأسعار</a><a href="#faq">الأسئلة</a></div>
     <button class="tg" id="tg" type="button" aria-label="تبديل الوضع الفاتح والداكن">☾</button>
     <a class="btn btn-p" href="#demo">ابدأ مجاناً</a>
+    <button class="tg mb" id="mb" type="button" aria-label="القائمة" aria-expanded="false">☰</button>
   </div>
 </nav>
 
@@ -290,9 +327,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     <div class="demo rv">
       <div><h2>جرّب مال مع فريقنا</h2><p>اترك بياناتك وسنتواصل معك عبر واتساب لتجهيز تجربتك المجانية وشرح البرنامج لنشاطك.</p></div>
       <form id="demoForm">
-        <label>الاسم<input name="nm" required autocomplete="name" placeholder="اسمك الكريم"></label>
+        <label>الاسم<input name="nm" required autocomplete="name" placeholder="الاسم الكريم"></label>
         <label>رقم الجوال<input name="ph" type="tel" required inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx"></label>
-        <label>البريد الإلكتروني (اختياري)<input name="em" type="email" autocomplete="email" placeholder="name@company.com" dir="ltr"></label>
+        <label>البريد الإلكتروني (اختياري)<input name="em" type="email" autocomplete="email" placeholder="name@Maal.com" dir="ltr"></label>
         <label>نوع النشاط<select name="bt" required><option value="" disabled selected>اختر نوع النشاط</option><optgroup label="تجارة وتجزئة"><option>متجر تجزئة</option><option>سوبرماركت وبقالة</option><option>تجارة جملة وتوزيع</option><option>متجر إلكتروني</option><option>إلكترونيات وجوالات</option><option>ملابس وأزياء</option><option>عطور ومستحضرات تجميل</option><option>أثاث ومفروشات</option><option>مكتبة وقرطاسية</option><option>هدايا وورود</option><option>مستلزمات منزلية</option><option>ألعاب ومستلزمات أطفال</option></optgroup><optgroup label="أغذية ومشروبات"><option>مطعم</option><option>كافيه ومقهى</option><option>مخبز وحلويات</option><option>كاترينج وتموين</option><option>محمصة وبهارات</option><option>مصنع أغذية</option><option>متجر خضار وفواكه</option><option>ملحمة ولحوم</option></optgroup><optgroup label="صحة وجمال"><option>عيادة أو مركز طبي</option><option>عيادة أسنان</option><option>صيدلية</option><option>مختبر طبي</option><option>صالون وعناية</option><option>مركز تجميل وسبا</option><option>نادٍ رياضي ولياقة</option><option>نظارات وبصريات</option></optgroup><optgroup label="سيارات ونقل"><option>ورشة صيانة سيارات</option><option>قطع غيار سيارات</option><option>معرض سيارات</option><option>مغسلة سيارات</option><option>تأجير سيارات</option><option>نقل وشحن وخدمات لوجستية</option><option>مكتب استقدام وتخليص</option></optgroup><optgroup label="صناعة ومقاولات"><option>مقاولات وبناء</option><option>مصنع وصناعة</option><option>أدوات ومواد بناء</option><option>كهرباء وسباكة</option><option>مصنع أثاث ونجارة</option><option>حدادة وألمنيوم</option><option>مطبعة</option><option>صيانة أجهزة ومعدات</option><option>زراعة ومزرعة</option></optgroup><optgroup label="خدمات مهنية وتجارية"><option>مكتب محاسبة</option><option>مكتب محاماة واستشارات</option><option>مكتب عقاري</option><option>تسويق ودعاية</option><option>تصميم وطباعة</option><option>تصوير وإنتاج</option><option>خدمات رقمية وبرمجة</option><option>تنظيف وصيانة منشآت</option><option>مغسلة ملابس</option><option>تأمين ووساطة</option></optgroup><optgroup label="تعليم وتدريب"><option>مدرسة أو معهد</option><option>مركز تدريب</option><option>حضانة</option><option>مركز دروس خصوصية</option></optgroup><optgroup label="سياحة وضيافة وفعاليات"><option>فندق وشقق مفروشة</option><option>مكتب سياحة وسفر</option><option>تنظيم فعاليات وحفلات</option><option>قاعات أفراح ومناسبات</option></optgroup><optgroup label="أخرى"><option>جمعية أو منظمة غير ربحية</option><option>جهة حكومية أو شبه حكومية</option></optgroup><option value="other">نشاط آخر (غير موجود في القائمة)</option></select></label>
         <label id="otherWrap" hidden>اكتب نشاطك<input name="ot" placeholder="مثال: مصنع عبوات بلاستيكية"></label>
         <div class="btns">
@@ -308,7 +345,30 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <a class="fab" id="fab" href="#" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب"><svg class="i"><use href="#chat"/></svg></a>
 
 <footer>
-  <div class="wrap"><span>© 2026 مال. جميع الحقوق محفوظة.</span><span>سياسة الخصوصية · الشروط والأحكام · تواصل معنا</span></div>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="brand">
+        <a class="logo" id="flogo" href="#top" aria-label="مال"></a>
+        <p>برنامج محاسبة سحابي لإدارة الفواتير والمخزون والتقارير من أي مكان وبكل سهولة.</p>
+        <a class="btn btn-p" href="#demo">ابدأ مجاناً</a>
+      </div>
+      <div class="fcol">
+        <h4>روابط الصفحة</h4>
+        <a href="#features">المميزات</a>
+        <a href="#steps">كيف يعمل</a>
+        <a href="#security">الأمان</a>
+        <a href="#pricing">الأسعار</a>
+        <a href="#faq">الأسئلة</a>
+        <a href="#demo">اطلب تجربتك</a>
+      </div>
+      <div class="fcol">
+        <h4>تواصل معنا</h4>
+        <a id="fwa" href="#" target="_blank" rel="noopener">واتساب</a>
+        <a id="fmail" href="#">البريد الإلكتروني</a>
+      </div>
+    </div>
+    <div class="fbar"><span>© 2026 مال. جميع الحقوق محفوظة.</span><span><a href="#">سياسة الخصوصية</a> · <a href="#">الشروط والأحكام</a></span></div>
+  </div>
 </footer>
 
 <script>
@@ -337,6 +397,12 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   function wa(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t);}
   var fab=document.getElementById('fab');
   if(fab)fab.href=wa('مرحباً، أرغب بمعرفة المزيد عن برنامج مال');
+  var fw=document.getElementById('fwa');
+  if(fw)fw.href=wa('مرحباً، أرغب بمعرفة المزيد عن برنامج مال');
+  var fm=document.getElementById('fmail');
+  if(fm)fm.href='mailto:'+MAIL;
+  var fl=document.getElementById('flogo');
+  if(fl)document.querySelectorAll('nav .logo img').forEach(function(i){fl.appendChild(i.cloneNode(true));});
   var f=document.getElementById('demoForm');
   if(!f)return;
   var other=document.getElementById('otherWrap');
@@ -363,6 +429,13 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       window.open(wa(m),'_blank','noopener');
     }
   });
+})();
+(function(){
+  var nav=document.querySelector('nav'),mb=document.getElementById('mb');
+  if(!nav||!mb)return;
+  function set(o){nav.classList.toggle('open',o);mb.setAttribute('aria-expanded',String(o));mb.textContent=o?'✕':'☰';}
+  mb.addEventListener('click',function(){set(!nav.classList.contains('open'));});
+  nav.querySelectorAll('.links a').forEach(function(a){a.addEventListener('click',function(){set(false);});});
 })();
 </script>
 </body>
